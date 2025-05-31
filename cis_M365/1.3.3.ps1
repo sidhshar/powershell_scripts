@@ -10,4 +10,12 @@ if (-not (Get-ConnectionInformation)) {
 }
 
 # Get the Sharing policy
-Get-SharingPolicy -Identity "Default Sharing Policy"
+$sharingPolicies = Get-SharingPolicy -Identity "Default Sharing Policy"
+
+foreach ($policy in $sharingPolicies) {
+    if (-not $policy.Enabled) {
+        Write-Host "[PASS] Sharing Policy '$($policy.Name)' is DISABLED"
+    } else {
+        Write-Host "[FAIL] Sharing Policy '$($policy.Name)' is ENABLED"
+    }
+}
